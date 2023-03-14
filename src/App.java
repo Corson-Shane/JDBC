@@ -1,6 +1,8 @@
+import java.io.Console;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -10,21 +12,31 @@ public class App {
 
         String url = "jdbc:mysql://localhost:3306/world";
         String user = "root";
+        String password;
+        Console console = System.console();
         Scanner myObj = new Scanner(System.in); 
-        System.out.println("Enter password");
-
-        String password = myObj.nextLine();
-
-        
-        Connection connection = DriverManager.getConnection(url, user, password);
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM Country;");
-        while(resultSet.next())
+        if(console == null)
         {
-            System.out.println("Index method: " + resultSet.getString(2));
-            System.out.println("Label method: " + resultSet.getString("Name"));
+            System.out.println("Enter password");
+            password = myObj.nextLine();
         }
-        resultSet.close();
-        myObj.close();
+        else
+            password = new String(console.readPassword("Enter password: "));
+        
+        try(Connection connection = DriverManager.getConnection(url, user, password);
+        Statement statement = connection.createStatement();) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Country;");
+            while(resultSet.next())
+            {
+                System.out.println("Index method: " + resultSet.getString(2));
+                System.out.println("Label method: " + resultSet.getString("Name"));
+            }
+            resultSet.close();
+            myObj.close();
+        }
+        catch(SQLException ex)
+        {
+            System.err.println("Exception: " + ex.getMessage());
+        }
     }
 }
