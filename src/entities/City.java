@@ -7,6 +7,7 @@ public class City {
     String District;
     Integer Population;
 
+    // gets and sets
     public Integer getID(){
         return ID; }
 
@@ -36,4 +37,11 @@ public class City {
 
     public void setPopulation(Integer population) {
         this.Population = population; }
+    // end of gets and sets
+
+    @Override
+    public String toString() {
+        return "City [CountryCode: " + CountryCode + ", District: " + District + ", ID: " + 
+        ID + ", Name: " + Name + ", Population: " + Population;
+        }
 }

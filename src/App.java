@@ -15,11 +15,13 @@ public class App {
         String password;
         Console console = System.console();
         Scanner myObj = new Scanner(System.in); 
+
         if(console == null)
         {
             System.out.println("Enter password");
             password = myObj.nextLine();
         }
+        // this will hide password input
         else
             password = new String(console.readPassword("Enter password: "));
         
